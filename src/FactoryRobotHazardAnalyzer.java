@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-// UC5: Validation + exception handling
+// UC6: Enhanced hazard risk calculation
 public class FactoryRobotHazardAnalyzer {
 
     public static void main(String[] args) {
@@ -25,7 +25,7 @@ public class FactoryRobotHazardAnalyzer {
             // UC5: Validation
             validateInputs(armPrecision, workerDensity, machineryState);
 
-            // UC3: Calculation (no change)
+            // UC6: Final hazard calculation
             RobotHazardAuditor auditor = new RobotHazardAuditor();
             double hazardRiskScore =
                     auditor.calculateHazardRisk(
@@ -34,7 +34,7 @@ public class FactoryRobotHazardAnalyzer {
                             machineryState
                     );
 
-            System.out.println("Robot Hazard Risk Score: " + hazardRiskScore);
+            System.out.println("Final Hazard Risk Score: " + hazardRiskScore);
 
         } catch (InvalidHazardInputException e) {
             System.out.println(e.getMessage());
@@ -43,7 +43,7 @@ public class FactoryRobotHazardAnalyzer {
         scanner.close();
     }
 
-    // UC5: Validation method
+    // UC5: Validation logic (unchanged)
     private static void validateInputs(double armPrecision,
                                        int workerDensity,
                                        String machineryState)
@@ -72,7 +72,7 @@ public class FactoryRobotHazardAnalyzer {
 }
 
 /*
- * UC3: Auditor class (unchanged)
+ * UC6: Finalized hazard risk calculation logic
  */
 class RobotHazardAuditor {
 
@@ -80,10 +80,15 @@ class RobotHazardAuditor {
                                       int workerDensity,
                                       String machineryState) {
 
+        // Base risk
         double riskScore = armPrecision * workerDensity;
 
+        // Machinery impact
         if (machineryState.equalsIgnoreCase("CRITICAL")) {
             riskScore = riskScore * 1.5;
+        } else {
+            // NORMAL state
+            riskScore = riskScore * 1.0;
         }
 
         return riskScore;
