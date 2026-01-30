@@ -1,20 +1,22 @@
 import java.util.Scanner;
 
-// UC6: Enhanced hazard risk calculation
+// UC7: Final integration and user-friendly output
 public class FactoryRobotHazardAnalyzer {
 
     public static void main(String[] args) {
 
-        System.out.println("Factory Robot Hazard Analyzer");
+        System.out.println("====================================");
+        System.out.println("   Factory Robot Hazard Analyzer");
+        System.out.println("====================================");
 
         Scanner scanner = new Scanner(System.in);
 
         try {
             // UC2: Accept inputs
-            System.out.print("Enter Arm Precision: ");
+            System.out.print("Enter Arm Precision (0.0 - 1.0): ");
             double armPrecision = scanner.nextDouble();
 
-            System.out.print("Enter Worker Density: ");
+            System.out.print("Enter Worker Density (0 - 20): ");
             int workerDensity = scanner.nextInt();
 
             scanner.nextLine(); // clear buffer
@@ -25,7 +27,7 @@ public class FactoryRobotHazardAnalyzer {
             // UC5: Validation
             validateInputs(armPrecision, workerDensity, machineryState);
 
-            // UC6: Final hazard calculation
+            // UC6: Hazard calculation
             RobotHazardAuditor auditor = new RobotHazardAuditor();
             double hazardRiskScore =
                     auditor.calculateHazardRisk(
@@ -34,10 +36,18 @@ public class FactoryRobotHazardAnalyzer {
                             machineryState
                     );
 
-            System.out.println("Final Hazard Risk Score: " + hazardRiskScore);
+            // UC7: User-friendly success output
+            System.out.println("------------------------------------");
+            System.out.println("Hazard Analysis Completed Successfully");
+            System.out.println("Calculated Hazard Risk Score : " + hazardRiskScore);
+            System.out.println("------------------------------------");
 
         } catch (InvalidHazardInputException e) {
+            // UC7: User-friendly error output
+            System.out.println("------------------------------------");
+            System.out.println("Hazard Analysis Failed");
             System.out.println(e.getMessage());
+            System.out.println("------------------------------------");
         }
 
         scanner.close();
@@ -72,7 +82,7 @@ public class FactoryRobotHazardAnalyzer {
 }
 
 /*
- * UC6: Finalized hazard risk calculation logic
+ * UC6: Auditor class (unchanged)
  */
 class RobotHazardAuditor {
 
@@ -80,15 +90,10 @@ class RobotHazardAuditor {
                                       int workerDensity,
                                       String machineryState) {
 
-        // Base risk
         double riskScore = armPrecision * workerDensity;
 
-        // Machinery impact
         if (machineryState.equalsIgnoreCase("CRITICAL")) {
             riskScore = riskScore * 1.5;
-        } else {
-            // NORMAL state
-            riskScore = riskScore * 1.0;
         }
 
         return riskScore;
